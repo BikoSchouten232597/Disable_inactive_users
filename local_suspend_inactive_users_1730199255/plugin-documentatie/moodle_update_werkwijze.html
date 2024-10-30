@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Werkwijze bij een Moodle Update</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Werkwijze bij een Moodle Update</h1>
+    <p>Als Moodle een update uitvoert, dienen de volgende punten gecontroleerd te worden om ervoor te zorgen dat de plugin correct blijft functioneren.</p>
+
+    <h2>1. Controleer Compatibiliteit van de Plugin</h2>
+    <p>Controleer of de volgende functies nog steeds worden ondersteund door de <a href="https://moodledev.io/docs/4.4/apis/core/dml" target="_blank">Moodle Data Manipulation API</a>:</p>
+    <ul>
+        <li><code>get_records_select()</code></li>
+        <li><code>get_in_or_equal()</code></li>
+        <li><code>execute()</code></li>
+    </ul>
+
+    <h2>2. Controleer de Cron-taak</h2>
+    <ul>
+        <li>Ga naar <code>www.jouwmoodlesite.com/admin/tool/task/scheduledtasks.php</code> en controleer of de taak nog in de lijst voorkomt.</li>
+        <li>(Indien mogelijk) Voer de taak handmatig uit en controleer de logs op eventuele foutmeldingen.</li>
+    </ul>
+
+    <a href="index.html">Terug naar de hoofdpagina</a>
+</body>
+</html>
