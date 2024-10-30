@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>lang/en Taalbestand</h1>
-    <p>De <code>lang/en</code> map bevat de taalbestanden voor de plugin. Deze bestanden maken het mogelijk om tekst in de gebruikersinterface van de plugin aan te passen en weer te geven in verschillende talen. Voor Engelse tekst gebruik je het bestand <code>en/strings.php</code> in deze map.</p>
+    <p>De <code>lang/en</code> map bevat de taalbestanden voor de plugin. Deze bestanden maken het mogelijk om tekst in de gebruikersinterface van de plugin aan te passen en weer te geven in verschillende talen. Voor Engelse tekst gebruik je het bestand <code>en/local_suspend_inactive_users.php</code> in deze map.</p>
 
     <h2>Bestand: local_suspend_inactive_users.php</h2>
     <p>In <code>lang/en/local_suspend_inactive_users.php</code> definieer je alle Engelse taalstrings die door de plugin worden gebruikt. Elke string krijgt een unieke identifier die wordt gebruikt om de tekst in je code op te halen.</p>
@@ -31,7 +31,7 @@ $string['cron_task_error'] = 'Fout bij het bijwerken van gebruikers';
     </ul>
 
     <h3>Nieuwe Strings Toevoegen</h3>
-    <p>Om nieuwe tekst toe te voegen aan de plugin, voeg je nieuwe items toe aan de <code>$string</code> array in <code>strings.php</code>. Elke nieuwe string krijgt een unieke sleutel (identifier) en de bijbehorende tekst. Hier is een voorbeeld:</p>
+    <p>Om nieuwe tekst toe te voegen aan de plugin, voeg je nieuwe items toe aan de <code>$string</code> array in <code>local_suspend_inactive_users.php</code>. Elke nieuwe string krijgt een unieke sleutel (identifier) en de bijbehorende tekst. Hier is een voorbeeld:</p>
 
     <pre><code>
 $string['new_feature_title'] = 'Nieuwe Functie Titel';
@@ -47,7 +47,7 @@ echo get_string('new_feature_title', 'local_suspend_inactive_users');
     <h3>Taalstring Gebruiken in je Plugin</h3>
     <p>Je haalt een taalstring op met de <code>get_string()</code> functie in Moodle. Deze functie accepteert twee parameters:</p>
     <ul>
-        <li><strong>Identifier</strong>: De naam van de string in het <code>strings.php</code> bestand, zoals <code>pluginname</code> of <code>cron_task_success</code>.</li>
+        <li><strong>Identifier</strong>: De naam van de string in het <code>local_suspend_inactive_users.php</code> bestand, zoals <code>pluginname</code> of <code>cron_task_success</code>.</li>
         <li><strong>Component</strong>: De naam van de plugin, bijvoorbeeld <code>local_suspend_inactive_users</code>.</li>
     </ul>
 
