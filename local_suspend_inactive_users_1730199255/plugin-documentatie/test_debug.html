@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test- en Debuginstructies</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Test- en Debuginstructies</h1>
+    <p>Deze pagina biedt instructies en tips voor het testen en debuggen van de plugin na installatie of een update, met uitleg over het gebruik van de Moodle-debugmodus en een overzicht van de <code>mtrace()</code>-berichten in de logs.</p>
+
+    <h2>1. Tips voor het Testen van de Plugin na Installatie of Update</h2>
+    <ul>
+        <li><strong>Controleer de basistaken</strong>: Verifieer of de plugin correct is geïnstalleerd en actief is in de lijst met geïnstalleerde plugins via <code>Beheer van de site > Plugins > Plugins overzicht</code>.</li>
+        <li><strong>Cron-taak testen</strong>:
+            <ul>
+                <li>Ga naar <code>Beheer van de site > Server > Cron-taken</code> en controleer of de taak correct wordt weergegeven.</li>
+                <li>Voer de cron-taak handmatig uit via de command-line om de werking te verifiëren:
+                    <pre><code>php /pad/naar/moodle/admin/cli/scheduled_task.php --execute="\local_pluginname\task\suspend_inactive_users"</code></pre>
+                </li>
+                <li>Controleer de logs direct na het uitvoeren van de taak om fouten of waarschuwingen te zien.</li>
+            </ul>
+        </li>
+        <li><strong>Functionaliteit valideren</strong>: Test de kernfunctionaliteit van de plugin (zoals het opschorten van inactieve gebruikers) om te zien of deze correct werkt.</li>
+    </ul>
+
+    <h2>2. Instructies voor het Inschakelen van de Moodle-debugmodus</h2>
+    <p>Moodle’s debugmodus helpt bij het opsporen van fouten en compatibiliteitsproblemen. Het is vooral nuttig om deze in te schakelen tijdens het testen van een plugin.</p>
+    <ol>
+        <li>Ga naar <code>Beheer van de site > Ontwikkeling > Debugging</code>.</li>
+        <li>Stel de debug-instellingen in:
+            <ul>
+                <li><strong>Debugberichten</strong>: Zet op "DEVELOPER: extra debugberichten voor ontwikkelaars".</li>
+                <li><strong>Weergave van debugberichten</strong>: Schakel in om berichten zichtbaar te maken in de gebruikersinterface.</li>
+            </ul>
+        </li>
+        <li>Sla de instellingen op.</li>
+    </ol>
+    <p>Wanneer je klaar bent met debuggen, schakel je de debugmodus uit om te voorkomen dat gebruikers debugberichten zien.</p>
+
+    <h2>3. Voorbeelden van <code>mtrace()</code>-Berichten in de Logs</h2>
+    <p>De <code>mtrace()</code>-functie in Moodle logt berichten tijdens het uitvoeren van een cron-taak. Hieronder staan enkele voorbeelden en de betekenis van elk bericht:</p>
+
+    <h3><code>mtrace("Aanpassen van de gebruikers was succesvol");</code></h3>
+    <p><strong>Betekenis</strong>: Dit bericht bevestigt dat inactieve gebruikers succesvol zijn geschorst.</p>
+    <p><strong>Gebruik</strong>: Dit helpt om te controleren of de taak correct is uitgevoerd en de plugin functioneert zoals bedoeld.</p>
+
+    <h3><code>mtrace("Aantal inactieve gebruikers gevonden: " . count($users));</code></h3>
+    <p><strong>Betekenis</strong>: Dit bericht toont het aantal gebruikers dat voldoet aan de criteria (bijvoorbeeld inactief voor 90 dagen).</p>
+    <p><strong>Gebruik</strong>: Nuttig voor het monitoren van het aantal inactieve gebruikers en het controleren of de selectiecriteria correct werken.</p>
+
+    <h3><code>mtrace("Geen gebruikers gevonden die in aanmerking komen");</code></h3>
+    <p><strong>Betekenis</strong>: Dit bericht verschijnt wanneer er geen gebruikers zijn die voldoen aan de criteria voor schorsing.</p>
+    <p><strong>Gebruik</strong>: Hiermee kun je bevestigen dat de plugin geen actie onderneemt als er geen inactieve gebruikers zijn. Dit is nuttig voor efficiëntie en resourcebeheer.</p>
+
+    <h3><code>mtrace("Fout bij het bijwerken van gebruikers: " . $e->getMessage());</code></h3>
+    <p><strong>Betekenis</strong>: Dit bericht verschijnt wanneer er een fout optreedt tijdens de taak. <code>$e->getMessage()</code> geeft de specifieke foutmelding weer.</p>
+    <p><strong>Gebruik</strong>: Deze foutmelding is belangrijk voor het opsporen van problemen. Het geeft details over waarom de taak niet is gelukt en helpt om snel te diagnosticeren.</p>
+
+    <h2>Voorbeeld Volgorde van <code>mtrace()</code>-Berichten in de Logs</h2>
+    <p>Hieronder volgt een voorbeeld van hoe deze <code>mtrace()</code>-berichten in de logs kunnen verschijnen:</p>
+    <pre><code>
+Aantal inactieve gebruikers gevonden: 5
+Aanpassen van de gebruikers was succesvol
+    </code></pre>
+    <p>Wanneer er geen gebruikers zijn om te schorsen:</p>
+    <pre><code>
+Geen gebruikers gevonden die in aanmerking komen
+    </code></pre>
+    <p>Wanneer er een fout optreedt:</p>
+    <pre><code>
+Fout bij het bijwerken van gebruikers: [foutmelding, zoals: Database connection error]
+    </code></pre>
+
+    <a href="index.html">Terug naar de hoofdpagina</a>
+</body>
+</html>

@@ -19,7 +19,6 @@ class suspend_inactive_users extends \core\task\scheduled_task {
 
             // Ophalen van de gebruikers die langer dan 90 dagen geleden zijn ingelogd. En nog niet zijn gedeactiveerd.
             $users = $DB->get_records_select('user', 'lastaccess < :lastaccess AND suspended = 0', array('lastaccess' => $ninety_days_ago));
-            mtrace("{$users[0]}");
             // Het ophalen van alle id's van de gebruikers uit de $users lijst
             $user_ids = array_keys($users);
 
@@ -34,6 +33,7 @@ class suspend_inactive_users extends \core\task\scheduled_task {
                  $DB->execute($sql, $params);
 
                  mtrace("Aanpassen van de gebruikers was succesvol");
+                 mtrace("Aantal inactieve gebruikers gevonden: " . count($users));
 
             }
             else {
