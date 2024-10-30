@@ -19,7 +19,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $tasks = array(
     array(
-        'classname' => 'local_ldap_connection\task\suspend_inactive_users',
+        'classname' => 'local_suspend_inactive_users\task\suspend_inactive_users',
         'blocking' => 0,
         'minute' => '0',
         'hour' => '0',
@@ -32,7 +32,7 @@ $tasks = array(
 
     <h3>Beschrijving van de Configuratie-Opties</h3>
     <ul>
-        <li><strong>classname</strong>: De naam van de taakklasse die wordt uitgevoerd. Dit is de volledige namespace van de klasse die je hebt gedefinieerd in <code>suspend_inactive_users.php</code> (bijv. <code>local_ldap_connection\task\suspend_inactive_users</code>).</li>
+        <li><strong>classname</strong>: De naam van de taakklasse die wordt uitgevoerd. Dit is de volledige namespace van de klasse die je hebt gedefinieerd in <code>suspend_inactive_users.php</code> (bijv. <code>local_suspend_inactive_users\task\suspend_inactive_users</code>).</li>
 
         <li><strong>blocking</strong>: Bepaalt of deze taak andere taken mag blokkeren. Een waarde van <code>0</code> betekent dat de taak niet blokkeert, en andere taken kunnen parallel worden uitgevoerd. Een waarde van <code>1</code> blokkeert andere taken totdat deze taak is voltooid.</li>
 

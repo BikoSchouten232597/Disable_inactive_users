@@ -1,11 +1,11 @@
 <?php
-namespace local_ldap_connection\task;
+namespace local_suspend_inactive_users\task;
 
 defined('MOODLE_INTERNAL') || die();
 
 class suspend_inactive_users extends \core\task\scheduled_task {
     public function get_name() {
-        return get_string('suspend_inactive_users', 'local_LDAP_connection');
+        return get_string('suspend_inactive_users', 'local_suspend_inactive_users');
     }
 
     public function execute() {

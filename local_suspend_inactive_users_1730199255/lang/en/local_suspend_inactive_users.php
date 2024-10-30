@@ -17,7 +17,7 @@
 /**
  * Plugin strings are defined here.
  *
- * @package     local_ldap_connection
+ * @package     local_suspend_inactive_users
  * @category    string
  * @copyright   2024 Biko Schouten
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 // Taalstrings voor de LDAP Connection plugin
-$string['pluginname'] = 'LDAP Connection';
-$string['cron_task_success'] = 'Aanpassen van de gebruikers was succesvol';
-$string['cron_task_error'] = 'Fout bij het bijwerken van gebruikers';
+$string['pluginname'] = 'Suspend inactive users';
+$string['cron_task_success'] = 'The users have been suspended succesfully';
+$string['cron_task_error'] = 'There was an error while suspending the users';
 $string['suspend_inactive_users'] = 'Suspend inactive users';

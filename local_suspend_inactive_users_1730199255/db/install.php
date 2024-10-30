@@ -15,17 +15,18 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Plugin version and other meta-data are defined here.
+ * Code to be executed after the plugin's database scheme has been installed is defined here.
  *
- * @package     local_ldap_connection
+ * @package     local_suspend_inactive_users
+ * @category    upgrade
  * @copyright   2024 Biko Schouten
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+/**
+ * Custom code to be run on installing the plugin.
+ */
+function xmldb_local_suspend_inactive_users_install() {
 
-$plugin->component = 'local_ldap_connection';
-$plugin->release = '1.0.0';
-$plugin->version = 2024102900;
-$plugin->requires = 2022112800;
-$plugin->maturity = MATURITY_ALPHA;
+    return true;
+}
