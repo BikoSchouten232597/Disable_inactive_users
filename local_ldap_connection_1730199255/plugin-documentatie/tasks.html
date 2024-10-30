@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tasks.php Documentatie</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>tasks.php</h1>
+    <p>Het bestand <code>tasks.php</code> definieert de planning van de cron-taak voor de plugin. Dit bestand bevat de configuratie die bepaalt wanneer en hoe vaak de taak wordt uitgevoerd binnen Moodle's cron-systeem.</p>
+
+    <h2>Configuratie van de Cron-Taak</h2>
+    <p>De <code>tasks.php</code> configuratie maakt gebruik van een array om de eigenschappen van de geplande taak in te stellen. Deze taak wordt geregistreerd en uitgevoerd door Moodle's cron-systeem op basis van de hier ingestelde frequentie.</p>
+
+    <h3>Voorbeeld Configuratie</h3>
+    <pre><code>
+defined('MOODLE_INTERNAL') || die();
+
+$tasks = array(
+    array(
+        'classname' => 'local_ldap_connection\task\suspend_inactive_users',
+        'blocking' => 0,
+        'minute' => '0',
+        'hour' => '0',
+        'day' => '*',
+        'dayofweek' => '*',
+        'month' => '*',
+    ),
+);
+    </code></pre>
+
+    <h3>Beschrijving van de Configuratie-Opties</h3>
+    <ul>
+        <li><strong>classname</strong>: De naam van de taakklasse die wordt uitgevoerd. Dit is de volledige namespace van de klasse die je hebt gedefinieerd in <code>suspend_inactive_users.php</code> (bijv. <code>local_ldap_connection\task\suspend_inactive_users</code>).</li>
+
+        <li><strong>blocking</strong>: Bepaalt of deze taak andere taken mag blokkeren. Een waarde van <code>0</code> betekent dat de taak niet blokkeert, en andere taken kunnen parallel worden uitgevoerd. Een waarde van <code>1</code> blokkeert andere taken totdat deze taak is voltooid.</li>
+
+        <li><strong>minute</strong>: De minuten waarop de taak moet draaien (0-59). Hier kun je specifieke minuten instellen, of een asterisk (<code>*</code>) gebruiken om de taak elke minuut te laten draaien. Voor meerdere minuten kun je waarden scheiden met komma's, zoals <code>0,15,30,45</code> om elke kwartier de taak te starten.</li>
+
+        <li><strong>hour</strong>: Het uur van de dag waarop de taak moet draaien (0-23). Hier kun je een specifiek uur instellen, zoals <code>2</code> voor 2 uur 's nachts, of <code>*</code> gebruiken om elk uur te draaien.</li>
+
+        <li><strong>day</strong>: De dag van de maand waarop de taak moet draaien (1-31). Je kunt een specifieke dag van de maand instellen, zoals <code>1</code> voor de eerste dag van de maand, of <code>*</code> gebruiken om elke dag te draaien.</li>
+
+        <li><strong>dayofweek</strong>: De dag van de week waarop de taak moet draaien (0-6, waarbij 0 zondag is). Met <code>0,1,2</code> stel je de taak in om op zondag, maandag en dinsdag te draaien, of gebruik <code>*</code> voor elke dag van de week.</li>
+
+        <li><strong>month</strong>: De maand van het jaar waarop de taak moet draaien (1-12). Bijvoorbeeld, <code>1</code> voor januari, of <code>*</code> om de taak elke maand uit te voeren.</li>
+    </ul>
+
+    <h3>Voorbeeldconfiguraties</h3>
+    <p>Hier zijn enkele voorbeelden van verschillende configuraties die je in <code>tasks.php</code> kunt gebruiken om de cron-frequentie aan te passen:</p>
+
+    <h4>Taak die elke dag om middernacht draait</h4>
+    <pre><code>
+'minute' => '0',
+'hour' => '0',
+'day' => '*',
+'dayofweek' => '*',
+'month' => '*',
+    </code></pre>
+    <p>Deze configuratie zorgt ervoor dat de taak elke dag om middernacht wordt uitgevoerd.</p>
+
+    <h4>Taak die elke maandag om 3:30 uur draait</h4>
+    <pre><code>
+'minute' => '30',
+'hour' => '3',
+'day' => '*',
+'dayofweek' => '1',
+'month' => '*',
+    </code></pre>
+    <p>Hiermee wordt de taak elke maandag om 3:30 uur uitgevoerd (waarbij <code>dayofweek = 1</code> staat voor maandag).</p>
+
+    <h4>Taak die alleen op de eerste dag van elke maand draait</h4>
+    <pre><code>
+'minute' => '0',
+'hour' => '0',
+'day' => '1',
+'dayofweek' => '*',
+'month' => '*',
+    </code></pre>
+    <p>Met deze instellingen draait de taak elke eerste dag van de maand om middernacht.</p>
+
+    <h2>Aanpassen van de Frequentie</h2>
+    <p>Je kunt de frequentie van de cron-taak aanpassen door de waarden in dit bestand te wijzigen. Zodra je wijzigingen aanbrengt, moet je de Moodle cache leegmaken via <strong>Beheer van de site > Ontwikkeling > Purg cache</strong> om de nieuwe instellingen te laten ingaan.</p>
+
+    <a href="index.html">Terug naar de hoofdpagina</a>
+</body>
+</html>

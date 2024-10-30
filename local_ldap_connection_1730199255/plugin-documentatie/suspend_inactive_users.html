@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>suspend_inactive_users.php Documentatie</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>suspend_inactive_users.php</h1>
+    <p>Het bestand <code>suspend_inactive_users.php</code> definieert de cron-taak voor de LDAP Connection plugin. Deze taak voert periodiek een check uit om gebruikers die langer dan 90 dagen inactief zijn, te schorsen.</p>
+
+    <h2>Class Overzicht</h2>
+    <p>De <code>suspend_inactive_users</code> class erft van de Moodle <code>\core\task\scheduled_task</code> class, die wordt gebruikt om geplande taken te beheren.</p>
+
+    <h2>Namespace</h2>
+    <pre><code>namespace local_ldap_connection\task;</code></pre>
+    <p>De class is onderdeel van de namespace <code>local_ldap_connection\task</code>, wat aangeeft dat het een geplande taak is voor de plugin <code>local_ldap_connection</code>.</p>
+
+    <h2>Methode: get_name()</h2>
+    <pre><code>public function get_name() {
+    return get_string('suspend_inactive_users', 'local_LDAP_connection');
+}</code></pre>
+    <p>De <code>get_name()</code> methode retourneert de naam van de cron-taak zoals die in de Moodle UI wordt weergegeven.</p>
+    <ul>
+        <li><strong>get_string('suspend_inactive_users', 'local_LDAP_connection')</strong>: Haalt de naam van de taak op uit de taalbestanden van de plugin.</li>
+    </ul>
+
+    <h2>Methode: execute()</h2>
+    <p>De <code>execute()</code> methode bevat de logica die wordt uitgevoerd wanneer de cron-taak draait.</p>
+
+    <h3>Bepalen van 90 Dagen Inactiviteit</h3>
+    <pre><code>$ninety_days_ago = time() - (90 * 24 * 60 * 60);</code></pre>
+    <p>Hier wordt een Unix-tijdstempel berekend voor 90 dagen geleden. Dit wordt gebruikt om te bepalen welke gebruikers inactief zijn.</p>
+
+    <h3>Try-Catch Blok</h3>
+    <pre><code>try {
+    // Code voor het ophalen en updaten van gebruikers
+} catch (dml_exception $e) {
+    mtrace("Fout bij het bijwerken van gebruikers: " . $e->getMessage());
+}</code></pre>
+    <p>Dit blok zorgt ervoor dat fouten die optreden tijdens de taak netjes worden afgehandeld en gelogd met <code>mtrace()</code>.</p>
+
+    <h3>Gebruikers Ophalen</h3>
+    <pre><code>$users = $DB->get_records_select('user', 'lastaccess < :lastaccess AND suspended = 0', array('lastaccess' => $ninety_days_ago));</code></pre>
+    <p>De <code>get_records_select</code> functie haalt alle gebruikers op die langer dan 90 dagen inactief zijn (<code>lastaccess &lt; :lastaccess</code>) en nog niet zijn geschorst (<code>suspended = 0</code>).</p>
+
+    <h3>Gebruikers-IDs Verzamelen</h3>
+    <pre><code>$user_ids = array_keys($users);</code></pre>
+    <p>Hier worden de IDs van de opgehaalde gebruikers verzameld in een lijst, zodat we deze in een bulk-update kunnen gebruiken.</p>
+
+    <h3>Bulk-Update Uitvoeren</h3>
+    <pre><code>if (!empty($users)) {
+    list($in_sql, $params) = $DB->get_in_or_equal($user_ids);
+    $sql = "UPDATE {user} SET suspended = 1 WHERE id $in_sql";
+    $DB->execute($sql, $params);
+    mtrace("Aanpassen van de gebruikers was succesvol");
+} else {
+    mtrace("Geen gebruikers gevonden die in aanmerking komen");
+}</code></pre>
+    <p>Als er gebruikers zijn om bij te werken, worden hun records geschorst via een bulk-update:</p>
+    <ul>
+        <li><strong>$DB->get_in_or_equal($user_ids)</strong>: Maakt een veilige <code>IN</code>-clausule voor de query met placeholders, gebaseerd op het aantal IDs.</li>
+        <li><strong>$DB->execute($sql, $params)</strong>: Voert de SQL-update uit en zet <code>suspended</code> op <code>1</code> voor de geselecteerde gebruikers.</li>
+    </ul>
+
+    <h2>Logging en Foutafhandeling</h2>
+    <pre><code>mtrace("Aanpassen van de gebruikers was succesvol");
+mtrace("Fout bij het bijwerken van gebruikers: " . $e->getMessage());</code></pre>
+    <p>De <code>mtrace()</code> functie wordt gebruikt om logberichten weer te geven tijdens het uitvoeren van de cron-taak, zowel bij succes als bij eventuele fouten.</p>
+
+    <a href="index.html">Terug naar de hoofdpagina</a>
+</body>
+</html>

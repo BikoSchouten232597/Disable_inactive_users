@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aanpassen van de Cron Frequentie</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Aanpassen van de Cron Frequentie</h1>
+    <p>In <code>tasks.php</code> kun je de frequentie van de cron-taak aanpassen door de <code>minute</code>, <code>hour</code>, <code>day</code>, <code>dayofweek</code>, en <code>month</code> waarden in te stellen.</p>
+
+    <h2>Voorbeeld</h2>
+    <pre><code>
+// Stel de cron-taak in om elke dag om middernacht te draaien
+$tasks = array(
+    array(
+        'classname' => 'local_ldap_connection\task\suspend_inactive_users',
+        'blocking' => 0,
+        'minute' => '0',
+        'hour' => '0',
+        'day' => '*',
+        'dayofweek' => '*',
+        'month' => '*',
+    ),
+);
+    </code></pre>
+
+    <p>In dit voorbeeld draait de cron-taak elke dag om middernacht. Pas de waarden aan om de frequentie te wijzigen:</p>
+    <ul>
+        <li><strong>minute</strong>: De minuut waarop de taak moet draaien (0-59 of * voor elke minuut).</li>
+        <li><strong>hour</strong>: Het uur waarop de taak moet draaien (0-23 of * voor elk uur).</li>
+        <li><strong>day</strong>: De dag van de maand (1-31 of * voor elke dag).</li>
+        <li><strong>dayofweek</strong>: De dag van de week (0-6, waarbij 0 zondag is, of * voor elke dag).</li>
+        <li><strong>month</strong>: De maand van het jaar (1-12 of * voor elke maand).</li>
+    </ul>
+
+    <a href="index.html">Terug naar de hoofdpagina</a>
+</body>
+</html>
